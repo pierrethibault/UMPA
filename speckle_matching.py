@@ -9,7 +9,7 @@ Date: July 2015
 import numpy as np
 from scipy import signal as sig
 
-def match_speckles(Isample, Iref, Nw, step=1, max_shift=4, df=True):
+def match_speckles(Isample, Iref, Nw, step=1, max_shift=4, df=True, printout=True):
     """
     Compare speckle images with sample (Isample) and w/o sample
     (Iref) using a given window.
@@ -65,7 +65,8 @@ def match_speckles(Isample, Iref, Nw, step=1, max_shift=4, df=True):
 
     # Loop through all positions
     for xi, i in enumerate(ROIy):
-        print 'line %d, %d/%d' % (i, xi, sh[0])
+        if printout:
+            print 'line %d, %d/%d' % (i, xi, sh[0])
         for xj, j in enumerate(ROIx):
             # Define local values of L1, L2, ...
             t1 = L1[i, j]
@@ -300,8 +301,8 @@ if __name__ == "__main__":
     pos = 4*np.indices((5, 5)).reshape((2, -1)).T
 
     # Simulate the measurements
-    measurements = np.array([abs(prop.free_nf(sample*pshift(speckle, p), lam, z, psize))**2 for p in pos])
-    reference = abs(prop.free_nf(speckle, lam, z, psize))**2
+    measurements = np.array([abs(free_nf(sample*pshift(speckle, p), lam, z, psize))**2 for p in pos])
+    reference = abs(free_nf(speckle, lam, z, psize))**2
     sref = [pshift(reference, p) for p in pos]
 
     result = match_speckles(measurements, sref, Nw=1, step=2)

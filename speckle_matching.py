@@ -44,7 +44,7 @@ def match_speckles(Isample, Iref, Nw, step=1, max_shift=4, df=True, printout=Tru
     L1 = cc(S2, w)
     L3 = cc(R2, w)
     if df:
-        L2 = Im * NR
+        L2 = Im * Im * NR
         L4 = Im * cc(S1, w)
         L6 = Im * cc(R1, w)
     # (We need a loop for L5)
